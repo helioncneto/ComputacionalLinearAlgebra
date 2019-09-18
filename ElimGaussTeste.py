@@ -57,7 +57,9 @@ if __name__ == "__main__":
 
 
     AA, bb = elimgauss(A, b)
-    print(subs_regressiva(AA, bb))
-    print(x)
+    print(AA)
+    print(bb)
+    #print(subs_regressiva(AA, bb))
+    #print(x)
 
 #print(np.dot(A,x)) Multiplicação de matrizes em python
