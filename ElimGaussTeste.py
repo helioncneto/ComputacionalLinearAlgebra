@@ -42,7 +42,7 @@ def subs_regressiva(A, b):
 
 
 if __name__ == "__main__":
-    '''
+
     A = np.array([[3, 2, 5],
                   [2, 1, 1],
                   [2, 5, 1]])
@@ -54,12 +54,13 @@ if __name__ == "__main__":
                   [-2, -5, 3]])
     b = np.array([2, 1, 3])
     x = np.array([1, -1, 0])
+    '''
 
 
     AA, bb = elimgauss(A, b)
     print(AA)
     print(bb)
-    #print(subs_regressiva(AA, bb))
-    #print(x)
+    print(subs_regressiva(AA, bb))
+    print(x)
 
 #print(np.dot(A,x)) Multiplicação de matrizes em python

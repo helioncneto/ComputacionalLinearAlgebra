@@ -1,4 +1,5 @@
 import numpy as np
+from functools import reduce
 
 def elimgauss(A, b):
     "Essa função realiza a Eliminação Gaussiana de uma Matriz"
@@ -25,19 +26,33 @@ def elimgauss(A, b):
 
     return A_dict, b_dict
 
-
-
-
-
-
 def subs_regressiva(A, b):
-    x = list()
+    x = list(range(len(b)))
+    for i in range(len(b)-1,-1, -1):
+        if i == len(b)-1:
+            x[i] = b[i]/A[i][i]
+        elif i == len(b)-2:
+            x[i] = (b[i]-(A[i][i+1]*x[i+1]))/A[i][i]
+        else:
+            x[i] = (b[i]-(reduce(lambda p,s: A[i][i+p]*x[i+p]+A[i][i+s]*x[i+s], range(1,len(x)-i))))/A[i][i]
+    return x
+
 
 if __name__ == "__main__":
-    A = np.array([[1, -1, 2],
-                  [2, 1, -1],
-                  [-2, -5, 3]])
-    b = np.array([2, 1, 3])
-    x = np.array([1, -1, 0])
+    #'''
+    A = [[1, -1, 2], [2, 1, -1],[-2, -5, 3]]
+    b = [2, 1, 3]
+    x = [1, -1, 0]
+    #'''
+    '''
+    A = [[3, 2, 5], [2, 1, 1], [2, 5, 1]]
+    x = [3, 2, 4]
+    b = [33, 12, 20]
+    '''
 
-    print(elimgauss(A,b))
+    dicA, dicB = elimgauss(A, b)
+    #print(dicA[len(A)-1])
+    #print(dicB[len(b)-1])
+    print(subs_regressiva(dicA[len(A)-1], dicB[len(b)-1]))
+    print(x)
+
