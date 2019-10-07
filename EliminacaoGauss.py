@@ -1,7 +1,7 @@
 import numpy as np
 from functools import reduce
 
-def elimgauss(A, b):
+def elimgauss(A, b, withM=False):
     "Essa função realiza a Eliminação Gaussiana de uma Matriz"
     m_dict = dict()
     A_dict = {0: A}
@@ -23,8 +23,11 @@ def elimgauss(A, b):
                 b_new.append(b_dict[rodada-1][j] - m[-1] * b_dict[rodada - 1][rodada - 1])
         A_dict[rodada] = A_new
         b_dict[rodada] = b_new
-
-    return A_dict, b_dict
+        m_dict[rodada] = m
+    if withM:
+        return A_dict, b_dict, m_dict
+    else:
+        return A_dict, b_dict
 
 def subs_regressiva(A, b):
     x = list(range(len(b)))
@@ -48,6 +51,11 @@ if __name__ == "__main__":
     A = [[3, 2, 5], [2, 1, 1], [2, 5, 1]]
     x = [3, 2, 4]
     b = [33, 12, 20]
+    '''
+    '''
+    A = [[2,1,1,0],[4,3,3,1],[8,7,9,5],[6,7,9,8]]
+    x = [1, 1]
+    b = [1,2,4,5]
     '''
 
     dicA, dicB = elimgauss(A, b)
