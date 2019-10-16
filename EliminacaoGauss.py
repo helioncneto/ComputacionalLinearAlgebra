@@ -40,12 +40,45 @@ def subs_regressiva(A, b):
             x[i] = (b[i]-(reduce(lambda p,s: A[i][i+p]*x[i+p]+A[i][i+s]*x[i+s], range(1,len(x)-i))))/A[i][i]
     return x
 
+def permuta_linha(A, b, g):
+    if len(A) == len(g):
+        A_new = A[:]
+        b_new = b[:]
+        for i in range(len(A)):
+            if i == g[i]:
+                pass
+            else:
+                A_new[i] = A[g[i]]
+                b_new[i] = b[g[i]]
+        return A_new, b_new
+    else:
+        print("O vetor de ordem possui tamanho diferente da Matriz A")
+
+def permuta_coluna(A, x, g):
+    A_new = A[:] #A cópia aqui não está acontecendo
+    for i in range(len(A)):
+        if i == g[i]:
+            pass
+        else:
+            for j in range(len(A)):
+                A_new[j][i] = A[j][g[i]]
+                #print(A[j][g[i]])
+                #print(A_new[j][i])
+
+    return A_new
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     #'''
-    A = [[1, -1, 2], [2, 1, -1],[-2, -5, 3]]
-    b = [2, 1, 3]
-    x = [1, -1, 0]
+    #A = [[1, -1, 2], [2, 1, -1],[-2, -5, 3]]
+    #b = [2, 1, 3]
+    #x = [1, -1, 0]
     #'''
     '''
     A = [[3, 2, 5], [2, 1, 1], [2, 5, 1]]
@@ -58,9 +91,14 @@ if __name__ == "__main__":
     b = [1,2,4,5]
     '''
 
-    dicA, dicB = elimgauss(A, b)
+    #dicA, dicB = elimgauss(A, b)
     #print(dicA[len(A)-1])
     #print(dicB[len(b)-1])
-    print(subs_regressiva(dicA[len(A)-1], dicB[len(b)-1]))
-    print(x)
+    #print(subs_regressiva(dicA[len(A)-1], dicB[len(b)-1]))
+    #print(x)
+    A = [[1,2,3],[4,5,6],[7,8,9]]
+    b = [1,2,3]
+    g = [1,0,2]
+    print(permuta_coluna(A,b,g))
+
 
