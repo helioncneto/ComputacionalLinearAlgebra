@@ -1,6 +1,10 @@
 import numpy as np
 from functools import reduce
 
+def copiar_lista(lista):
+    novo = [[i for i in x] for x in lista]
+    return novo
+
 def elimgauss(A, b, withM=False):
     "Essa função realiza a Eliminação Gaussiana de uma Matriz"
     m_dict = dict()
@@ -42,8 +46,8 @@ def subs_regressiva(A, b):
 
 def permuta_linha(A, b, g):
     if len(A) == len(g):
-        A_new = A[:]
-        b_new = b[:]
+        A_new = copiar_lista(A)
+        b_new = copiar_lista(b)
         for i in range(len(A)):
             if i == g[i]:
                 pass
@@ -55,7 +59,7 @@ def permuta_linha(A, b, g):
         print("O vetor de ordem possui tamanho diferente da Matriz A")
 
 def permuta_coluna(A, x, g):
-    A_new = A[:] #A cópia aqui não está acontecendo
+    A_new = copiar_lista(A)
     for i in range(len(A)):
         if i == g[i]:
             pass
