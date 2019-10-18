@@ -71,13 +71,6 @@ def permuta_coluna(A, x, g):
 
     return A_new
 
-
-
-
-
-
-
-
 if __name__ == "__main__":
     #'''
     #A = [[1, -1, 2], [2, 1, -1],[-2, -5, 3]]
