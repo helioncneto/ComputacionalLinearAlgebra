@@ -63,15 +63,17 @@ def permuta_linha(A, b, g):
         print("O vetor de ordem possui tamanho diferente da Matriz A")
 
 
-def permuta_coluna(A, g):
+def permuta_coluna(A, x, g):
     A_new = copiar_matriz(A)
+    x_new = x[:]
     for i in range(len(A)):
         if i == g[i]:
             pass
         else:
             for j in range(len(A)):
                 A_new[j][i] = A[j][g[i]]
-    return A_new
+                x_new[i] = x[g[i]]
+    return A_new, x_new
 
 
 def pivoteamento_parcial(A, col, escala=False):
@@ -103,6 +105,32 @@ def pivoteamento_parcial(A, col, escala=False):
     g[linha] = col
     return g
 
+
+def pivoteamento_completo(A, col):
+    g_l = list(range(len(A)))
+    g_c = list(range(len(A)))
+    linha = None
+    coluna = None
+    prim = True
+
+    for i in range(col, len(A)):
+        for j in range(col, len(A)):
+            if prim:
+                maior = abs(A[i][j])
+                linha = i
+                coluna = j
+                prim = False
+            if abs(A[i][j]) > maior:
+                maior = abs(A[i][j])
+                linha = i
+                coluna = j
+    g_l[col] = linha
+    g_l[linha] = col
+    g_c[col] = coluna
+    g_c[coluna] = col
+    return g_l, g_c
+
+
 def sub_matriz(A, prof):
     A_new = list()
     for i in range(prof, len(A)):
@@ -115,6 +143,7 @@ def eliminacao_gaussiana(A, b, withM=False, pivoteamento="None"):
     m_dict = dict()
     A_dict = {0: A}
     b_dict = {0: b}
+    x_dict = {0: list(range(len(A)))}
     for rodada in range(1, len(A)):
         A_new = list()
         b_new = list()
@@ -125,6 +154,11 @@ def eliminacao_gaussiana(A, b, withM=False, pivoteamento="None"):
         if pivoteamento == "parcial_escala":
             g = pivoteamento_parcial(A_dict[rodada - 1], rodada - 1, escala=True)
             A_dict[rodada - 1], b_dict[rodada - 1] = permuta_linha(A_dict[rodada - 1], b_dict[rodada - 1], g)
+        if pivoteamento == "completo":
+            g_l, g_c = pivoteamento_completo(A_dict[rodada-1], rodada-1)
+            A_dict[rodada - 1], b_dict[rodada - 1] = permuta_linha(A_dict[rodada - 1], b_dict[rodada - 1], g_l)
+            A_dict[rodada - 1], x_dict[rodada - 1] = permuta_coluna(A_dict[rodada - 1], x_dict[rodada - 1], g_c)
+            x_dict[rodada] = x_dict[rodada - 1]
         for j in range(len(A)):
             A_list = list()
             if rodada >= j + 1:
@@ -140,9 +174,9 @@ def eliminacao_gaussiana(A, b, withM=False, pivoteamento="None"):
         b_dict[rodada] = b_new
         m_dict[rodada] = m
     if withM:
-        return A_dict, b_dict, m_dict
+        return A_dict, b_dict, x_dict, m_dict
     else:
-        return A_dict, b_dict
+        return A_dict, b_dict, x_dict
 
 if __name__ == "__main__":
     #'''
@@ -168,13 +202,31 @@ if __name__ == "__main__":
     b = [-7, 8, 26]
     '''
     # Matriz A e b para pivoteamento parcial com escala
-    A = [[2.11, -4.210, 0.921], [4.01, 10.200, -1.120], [1.09, 0.987, 0.832]]
+    #A = [[2.11, -4.210, 0.921],
+         #[4.01, 10.200, -1.120],
+         #[1.09, 0.987, 0.832]]
+    A = [[10.2, 4.01, -1.12], [0.0, 3.7651078431372547, 0.4587254901960784], [0.0, 0.7019735294117648, 0.9403764705882353]]
     b = [2.01, -3.09, 4.21]
-    dicA, dicB = eliminacao_gaussiana(A, b, pivoteamento="parcial_escala")
+    x = list(range(len(A)))
+
+    dicA, dicB, dicx = eliminacao_gaussiana(A, b, pivoteamento="completo")
     #print(dicA[len(A)-1])
     #print(dicB[len(b)-1])
-    fim = subs_regressiva(dicA[len(A)-1], dicB[len(b)-1])
-    print(fim)
+    #print(dicx)
+
+    #g_l, g_c = pivoteamento_completo(A, 0)
+    #A, b = permuta_linha(A, b, g_l)
+    #A, x = permuta_coluna(A, x, g_c)
+
+    #print(g_l)
+    #print(g_c)
+
+    #print(A)
+    #print(x)
+    #print(b)
+
+    #fim = subs_regressiva(dicA[len(A)-1], dicB[len(b)-1])
+    #print(fim)
     #print(fim)
     #print(x)
 
