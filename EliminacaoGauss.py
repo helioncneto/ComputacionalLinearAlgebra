@@ -7,35 +7,6 @@ def copiar_matriz(lista):
     return novo
 
 
-def elimgauss(A, b, withM=False):
-    "Essa função realiza a Eliminação Gaussiana de uma Matriz"
-    m_dict = dict()
-    A_dict = {0: A}
-    b_dict = {0: b}
-    for rodada in range(1, len(A)):
-        A_new = list()
-        b_new = list()
-        m = list()
-        for j in range(len(A)):
-            A_list = list()
-            if rodada >= j + 1:
-                A_new.append(A_dict[rodada - 1][j])
-                b_new.append(b_dict[rodada - 1][j])
-            else:
-                m.append(A_dict[rodada-1][j][rodada-1]/A_dict[rodada-1][rodada-1][rodada-1])
-                for i in range(len(A[0])):
-                    A_list.append(A_dict[rodada-1][j][i]-m[-1]*A_dict[rodada-1][rodada-1][i])
-                A_new.append(A_list)
-                b_new.append(b_dict[rodada-1][j] - m[-1] * b_dict[rodada - 1][rodada - 1])
-        A_dict[rodada] = A_new
-        b_dict[rodada] = b_new
-        m_dict[rodada] = m
-    if withM:
-        return A_dict, b_dict, m_dict
-    else:
-        return A_dict, b_dict
-
-
 def subs_regressiva(A, b):
     x = list(range(len(b)))
     for i in range(len(b)-1,-1, -1):
