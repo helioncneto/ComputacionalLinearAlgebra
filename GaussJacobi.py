@@ -12,7 +12,16 @@ class LinearAlgebra:
                         soma = soma + A[i][j] * x[ep-1][j]
                 x_.append((b[i] - soma) / A[i][i])
             x[ep] = x_[:]
-            print((abs(x[ep-1]-x[ep]))/x[ep])#numpy
+            diff_x = 0.0
+            old_x = 0.0
+            for i in range(len(x[ep])):
+                diff_x = diff_x + abs(x[ep][j] - x[ep-1][j])
+                old_x = old_x + abs(x[ep-1][j])
+            if old_x == 0.0:
+                old_x = 1.0
+            norm = diff_x / old_x
+            if norm < tol:
+                return x
         return x
 
     def criterio_linhas(self, A):
@@ -41,11 +50,11 @@ la = LinearAlgebra()
 
 A = [[9.0, -3.0], [-2.0, 8.0]]
 b = [6.0, -4.0]
-guess = [0.0, 0.0, 0.0]
+guess = [0.0, 0.0]
 
 mtz = [[10,2,1], [1,5,1], [2,3,10]]
 print(la.criterio_linhas(mtz))
 
-t = la.gauss_jacobi(A, b, guess)
+t = la.gauss_jacobi(A, b, guess, it=50)
 
-#print(t)
+print(t)
