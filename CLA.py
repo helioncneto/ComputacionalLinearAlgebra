@@ -104,20 +104,22 @@ class LinearAlgebra:
         else:
             return False
 
-la = LinearAlgebra()
 
-A = [[9.0, -3.0], [-2.0, 8.0]]
-b = [6.0, -4.0, 2]
-guess = [0.0, 0.0]
+if __name__ == '__main__':
+    la = LinearAlgebra()
 
-A2 = [[9.0, -3.0, 1], [-2.0, 8.0, 1],[1,1,1]]
-b2 = [6.0, -4.0, 2]
-guess2 = [0.0, 0.0, 0.0]
+    A = [[9.0, -3.0], [-2.0, 8.0]]
+    b = [6.0, -4.0, 2]
+    guess = [0.0, 0.0]
 
-mtz = [[10,2,1], [1,5,1], [2,3,10]]
-print(la.criterio_linhas(A))
-print(la.criterio_sassenfeld(A))
+    A2 = [[9.0, -3.0, 1], [-2.0, 8.0, 1],[1,1,1]]
+    b2 = [6.0, -4.0, 2]
+    guess2 = [0.0, 0.0, 0.0]
 
-t = la.gauss_seidel(A, b, guess, it=50)
+    mtz = [[10,2,1], [1,5,1], [2,3,10]]
+    print(la.criterio_linhas(A))
+    print(la.criterio_sassenfeld(A))
 
-print(t)
+    t = la.gauss_seidel(A, b, guess, it=50)
+
+    print(t)
