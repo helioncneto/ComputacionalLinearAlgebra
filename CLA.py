@@ -146,7 +146,8 @@ class LinearAlgebra:
             s[ep] = np.dot(w[ep], w[ep]) / np.dot(w[ep - 1], w[ep - 1])
             v[ep] = np.dot(C_inv.T, w[ep]) + np.dot(s[ep], v[ep - 1])
 
-            print(r[ep])
+            if np.linalg.norm(v[ep]) < tol:
+                return x
         return x
 
 if __name__ == '__main__':
