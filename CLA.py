@@ -104,12 +104,30 @@ class LinearAlgebra:
         else:
             return False
 
+    def gradiente_conjugado(self, A, b, chute, it=30, tol=0.00000000001):
+        A = np.array(A)
+        b = np.array(b)
+        chute = np.array(chute)
+        r = {0: b-(np.dot(A, chute))}
+        v = {0: r[0]}
+        t = [np.dot(r[0], r[0])/np.dot(v[0], v[0])]
+        x = {0: chute}
+        s = dict()
+
+        for ep in range(1, it + 1):
+            x[ep] = x[ep-1] + np.dot(t[ep-1], v[ep-1])
+            r[ep] = r[ep-1] - np.dot(t[ep-1], np.dot(A, v[ep-1]))
+            s[ep] = np.dot(r[ep], r[ep])/np.dot(r[ep-1], r[ep-1])
+            v[ep] = r[ep]+np.dot(s[ep], v[ep-1])
+            t.append(np.dot(r[ep-1], r[ep-1])/np.dot(v[ep], v[ep]))
+        return x
+
 
 if __name__ == '__main__':
     la = LinearAlgebra()
 
     A = [[9.0, -3.0], [-2.0, 8.0]]
-    b = [6.0, -4.0, 2]
+    b = [6.0, -4.0]
     guess = [0.0, 0.0]
 
     A2 = [[9.0, -3.0, 1], [-2.0, 8.0, 1],[1,1,1]]
@@ -117,9 +135,9 @@ if __name__ == '__main__':
     guess2 = [0.0, 0.0, 0.0]
 
     mtz = [[10,2,1], [1,5,1], [2,3,10]]
-    print(la.criterio_linhas(A))
-    print(la.criterio_sassenfeld(A))
+    #print(la.criterio_linhas(A))
+    #print(la.criterio_sassenfeld(A))
 
-    t = la.gauss_seidel(A, b, guess, it=50)
+    t = la.gradiente_conjugado(A, b, guess)
 
     print(t)
