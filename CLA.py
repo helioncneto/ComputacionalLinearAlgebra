@@ -103,7 +103,7 @@ class LinearAlgebra:
             return True
         else:
             return False
-
+    '''
     def gradiente_conjugado(self, A, b, chute, it=30, tol=0.00000000001):
         A = np.array(A)
         b = np.array(b)
@@ -121,7 +121,33 @@ class LinearAlgebra:
             v[ep] = r[ep]+np.dot(s[ep], v[ep-1])
             t.append(np.dot(r[ep-1], r[ep-1])/np.dot(v[ep], v[ep]))
         return x
+    '''
 
+    def gradiente_conjugado(self, A, b, chute, it=30, C=False, tol=0.00000000001):
+        A = np.array(A)
+        b = np.array(b)
+        chute = np.array(chute)
+        if not C:
+            C = np.eye(len(A))
+        C_inv = np.linalg.inv(C)
+        r = {0: b - (np.dot(A, chute))}
+        w = {0: np.dot(C_inv, r[0])}
+        v = {0: np.dot(C_inv.T, w[0])}
+
+        t = list()
+        x = {0: chute}
+        s = dict()
+
+        for ep in range(1, it + 1):
+            t.append(np.dot(w[ep - 1], w[ep - 1]) / np.dot(v[ep - 1], np.dot(A, v[ep - 1])))
+            x[ep] = x[ep - 1] + np.dot(t[ep - 1], v[ep - 1])
+            r[ep] = r[ep - 1] - np.dot(t[ep - 1], np.dot(A, v[ep - 1]))
+            w[ep] = np.dot(C_inv, r[ep])
+            s[ep] = np.dot(w[ep], w[ep]) / np.dot(w[ep - 1], w[ep - 1])
+            v[ep] = np.dot(C_inv.T, w[ep]) + np.dot(s[ep], v[ep - 1])
+
+            print(r[ep])
+        return x
 
 if __name__ == '__main__':
     la = LinearAlgebra()
