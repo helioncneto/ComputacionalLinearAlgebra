@@ -157,14 +157,14 @@ if __name__ == '__main__':
     b = [6.0, -4.0]
     guess = [0.0, 0.0]
 
-    A2 = [[9.0, -3.0, 1], [-2.0, 8.0, 1],[1,1,1]]
-    b2 = [6.0, -4.0, 2]
+    A2 = [[4.0, 3.0, 0], [3.0, 4.0, -1.0], [0, -1.0, 4.0]]
+    b2 = [24, 30, -24]
     guess2 = [0.0, 0.0, 0.0]
 
     mtz = [[10,2,1], [1,5,1], [2,3,10]]
     #print(la.criterio_linhas(A))
     #print(la.criterio_sassenfeld(A))
 
-    t = la.gradiente_conjugado(A, b, guess)
+    t = la.gradiente_conjugado(A2, b2, guess2)
 
     print(t)
